@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Battlegrounds</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Press Start 2P', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #222;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 800px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #333;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffdb58;
+        }
+
+        @media (min-width: 640px) {
+          h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        .character-select {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .character-select {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+
+        .character-card {
+            margin: 0.5rem;
+            padding: 1rem;
+            border: 2px solid #555;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .character-card:hover {
+            border-color: #ffdb58;
+        }
+
+        @media (min-width: 640px) {
+            .character-card {
+                width: auto;
+            }
+        }
+
+        .character-card.selected {
+            border-color: #ffdb58;
+            background-color: #444;
+        }
+
+        .character-name {
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+         @media (min-width: 640px) {
+             .character-name{
+                 font-size: 1rem;
+            }
+         }
+
+        .stats {
+            margin-bottom: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .stat-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.7rem;
+        }
+        @media (min-width: 640px) {
+             .stat-group {
+                font-size: 0.8rem;
+            }
+        }
+
+        .train-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        @media (min-width: 640px) {
+             .train-buttons {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+
+        .train-button {
+            margin: 0.5rem;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffdb58;
+            color: #222;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 0.7rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .train-button:hover {
+            background-color: #e5c342;
+        }
+         @media (min-width: 640px) {
+             .train-button {
+                width: auto;
+            }
+         }
+
+        .battle-log {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 2px solid #555;
+            border-radius: 5px;
+            text-align: left;
+            height: 100px;
+            overflow-y: scroll;
+            background-color: #2a2a2a;
+            font-size: 0.7rem;
+            line-height: 1rem;
+            box-sizing: border-box;
+            width: 100%;
+        }
+        @media (min-width: 640px) {
+            .battle-log {
+                font-size: 0.8rem;
+                line-height: 1.2rem;
+            }
+        }
+
+        .battle-button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff6b6b;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .battle-button:hover {
+            background-color: #e55353;
+        }
+         @media (min-width: 640px) {
+             .battle-button {
+                 font-size: 1rem;
+                 width: auto;
+            }
+         }
+
+        #reset-button {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #888;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 0.7rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        #reset-button:hover {
+            background-color: #666;
+        }
+        @media (min-width: 640px) {
+             #reset-button {
+                 font-size: 0.8rem;
+                 width: auto;
+            }
+         }
+
+        .winning-message {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #ffdb58;
+            margin-top: 1rem;
+        }
+         @media (min-width: 640px) {
+             .winning-message {
+                  font-size: 1.2rem;
+             }
+         }
+        .instructions {
+            margin-top: 1rem;
+            padding: 1rem;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background-color: #2a2a2a;
+            font-size: 0.6rem;
+            text-align: left;
+            line-height: 1rem;
+        }
+        @media (min-width: 640px) {
+             .instructions {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Anime Battlegrounds</h1>
+
+        <div class="character-select">
+            <div class="character-card" data-character="naruto">
+                <h2 class="character-name">Naruto</h2>
+                <p>HP: 100</p>
+                <p>Attack: 15</p>
+                <p>Defense: 10</p>
+            </div>
+            <div class="character-card" data-character="goku">
+                <h2 class="character-name">Goku</h2>
+                <p>HP: 120</p>
+                <p>Attack: 20</p>
+                <p>Defense: 12</p>
+            </div>
+            <div class="character-card" data-character="luffy">
+                <h2 class="character-name">Luffy</h2>
+                <p>HP: 110</p>
+                <p>Attack: 18</p>
+                <p>Defense: 11</p>
+            </div>
+        </div>
+
+        <div class="stats">
+            <h2>Stats</h2>
+            <div class="stat-group">
+                <p>HP: <span id="hp">100</span></p>
+                <p>Attack: <span id="attack">15</span></p>
+                <p>Defense: <span id="defense">10</span></p>
+            </div>
+        </div>
+
+        <div class="train-buttons">
+            <button class="train-button" data-stat="hp">Train HP</button>
+            <button class="train-button" data-stat="attack">Train Attack</button>
+            <button class="train-button" data-stat="defense">Train Defense</button>
+        </div>
+
+        <div class="battle-log">
+            <h2>Battle Log</h2>
+            <div id="battle-text"></div>
+        </div>
+
+        <button class="battle-button" id="start-battle">Start Battle</button>
+        <p id="winning-message" class="winning-message"></p>
+        <button id="reset-button">Reset</button>
+
+        <div class="instructions">
+             <h2>How to Play</h2>
+                <ol>
+                    <li><strong>Select a Character:</strong> Click on the character card of your choice (Naruto, Goku, or Luffy). Their stats will be displayed.</li>
+                    <li><strong>Train Your Stats:</strong> Use the "Train HP," "Train Attack," and "Train Defense" buttons to increase your character's stats. Each training session will slightly improve the stat.</li>
+                    <li><strong>Battle:</strong> Once you're ready, click the "Start Battle" button. You will face a randomly chosen opponent.</li>
+                    <li><strong>Battle Log:</strong> The battle log will display the sequence of events, showing how much damage each character deals.</li>
+                    <li><strong> победитель:</strong> The first character to reduce their opponent's HP to 0 wins the battle. A winning message will be displayed.</li>
+                    <li><strong>Reset:</strong> After a battle, you can click the "Reset" button to start over, choose a new character, and train again.</li>
+                </ol>
+                <p>Train your character wisely to become the strongest!</p>
+        </div>
+    </div>
+
+    <script>
+        const characters = {
+            naruto: { hp: 100, attack: 15, defense: 10 },
+            goku: { hp: 120, attack: 20, defense: 12 },
+            luffy: { hp: 110, attack: 18, defense: 11 },
+        };
+
+        let selectedCharacter = null;
+        let playerStats = { hp: 0, attack: 0, defense: 0 };
+        let battleLog = [];
+
+        const characterCards = document.querySelectorAll(".character-card");
+        const hpDisplay = document.getElementById("hp");
+        const attackDisplay = document.getElementById("attack");
+        const defenseDisplay = document.getElementById("defense");
+        const trainButtons = document.querySelectorAll(".train-button");
+        const battleText = document.getElementById("battle-text");
+        const battleButton = document.getElementById("start-battle");
+        const winningMessage = document.getElementById("winning-message");
+        const resetButton = document.getElementById("reset-button");
+
+        characterCards.forEach((card) => {
+            card.addEventListener("click", () => {
+                const character = card.dataset.character;
+                selectedCharacter = character;
+                characterCards.forEach((c) => c.classList.remove("selected"));
+                card.classList.add("selected");
+                loadCharacterStats();
+                battleLog = [];
+                battleText.innerHTML = "";
+                winningMessage.textContent = "";
+                battleButton.disabled = false;
+            });
+        });
+
+        function loadCharacterStats() {
+            if (selectedCharacter) {
+                playerStats = { ...characters[selectedCharacter] };
+                hpDisplay.textContent = playerStats.hp;
+                attackDisplay.textContent = playerStats.attack;
+                defenseDisplay.textContent = playerStats.defense;
+            }
+        }
+
+        trainButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                const stat = button.dataset.stat;
+                if (selectedCharacter) {
+                    playerStats[stat] += Math.floor(Math.random() * 5) + 1;
+                    hpDisplay.textContent = playerStats.hp;
+                    attackDisplay.textContent = playerStats.attack;
+                    defenseDisplay.textContent = playerStats.defense;
+                    logMessage(`Trained ${stat}! ${stat.toUpperCase()} increased to ${playerStats[stat]}.`);
+                }
+            });
+        });
+
+        function logMessage(message) {
+            battleLog.push(message);
+            battleText.innerHTML = battleLog.join("<br>");
+            battleText.scrollTop = battleText.scrollHeight;
+        }
+
+        battleButton.addEventListener("click", () => {
+            if (selectedCharacter) {
+                startBattle();
+            } else {
+                alert("Please select a character before battling!");
+            }
+        });
+
+        function startBattle() {
+            if (!selectedCharacter) return;
+
+            const charactersArray = Object.keys(characters);
+            const opponentName = charactersArray[Math.floor(Math.random() * charactersArray.length)];
+            if (opponentName === selectedCharacter) {
+                startBattle();
+                return;
+            }
+            const opponentStats = { ...characters[opponentName] };
+
+            logMessage(`Battle Start! ${selectedCharacter} vs ${opponentName}`);
+
+            let playerTurn = true;
+            let playerHP = playerStats.hp;
+            let opponentHP = opponentStats.hp;
+
+            while (playerHP > 0 && opponentHP > 0) {
+                if (playerTurn) {
+                    const damage = Math.max(0, playerStats.attack - opponentStats.defense);
+                    opponentHP -= damage;
+                    logMessage(`${selectedCharacter} attacks ${opponentName} for ${damage} damage!`);
+                } else {
+                    const damage = Math.max(0, opponentStats.attack - playerStats.defense);
+                    playerHP -= damage;
+                    logMessage(`${opponentName} attacks ${selectedCharacter} for ${damage} damage!`);
+                }
+                playerTurn = !playerTurn;
+            }
+
+            if (playerHP <= 0) {
+                logMessage(`${opponentName} wins!`);
+                winningMessage.textContent = `${opponentName} wins!`;
+            } else {
+                logMessage(`${selectedCharacter} wins!`);
+                winningMessage.textContent = `${selectedCharacter} wins!`;
+            }
+            battleButton.disabled = true;
+        }
+
+        resetButton.addEventListener("click", () => {
+            selectedCharacter = null;
+            playerStats = { hp: 0, attack: 0, defense: 0 };
+            battleLog = [];
+            battleText.innerHTML = "";
+            winningMessage.textContent = "";
+            characterCards.forEach((card) => card.classList.remove("selected"));
+            loadCharacterStats();
+            battleButton.disabled = false;
+        });
+    </script>
+</body>
+</html>
+
